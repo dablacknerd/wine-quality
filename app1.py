@@ -33,7 +33,7 @@ with st.container():
     sns.set_style('darkgrid')
     custom_cmap = sns.diverging_palette(10, 255, n=3)
     pearson_mask = np.triu(np.ones_like(pearson_corr, dtype=bool))
-    spearman_mask = np.triu(np.ones_like(pearson_corr, dtype=bool))
+    spearman_mask = np.triu(np.ones_like(spearman_corr, dtype=bool))
 
 
     with col1:
