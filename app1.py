@@ -12,7 +12,8 @@ st.set_page_config(layout='wide')
 df = pd.read_csv('data/wine-quality.csv')
 input_features = df.columns[:-4].tolist()
 X = df[input_features]
-corr = X.corr()
+pearson_corr = X.corr()
+spearman_corr = X.corr(method="spearman")
 
 df_red = df[df['red or white']=='red'].copy()
 df_red.reset_index(inplace=True)
@@ -30,20 +31,26 @@ select_inputs = st.sidebar.selectbox('What input feature do you want to examine?
 with st.container():
     col1, col2= st.columns([3,3])
     sns.set_style('darkgrid')
+    custom_cmap = sns.diverging_palette(10, 255, n=3)
+    mask = np.triu(np.ones_like(corr, dtype=bool))
 
     with col1:
         fig1, ax1 = plt.subplots()
-        custom_cmap = sns.diverging_palette(10, 255, n=3)
-        mask = np.triu(np.ones_like(corr, dtype=bool))
-        plt.title("Diagonal Correlation Matrix")
-        ax1 = sns.heatmap(corr,mask=mask,cmap=custom_cmap, vmax=1.0,vmin=-1.0,annot=True,fmt='.1f')
+        plt.title("Pearson Correlation Matrix")
+        ax1 = sns.heatmap(pearson_corr,mask=mask,cmap=custom_cmap, vmax=1.0,vmin=-1.0,annot=True,fmt='.1f')
         st.pyplot(fig1)
 
     with col2:
         fig2, ax2 = plt.subplots()
-        wine_type_color = {'white':'blue','red':'red'}
-        plt.title("Outlier Visualization for {}".format(select_inputs.title()))
-        ax2 = sns.boxplot(x='red or white', y=select_inputs, data=df, palette=wine_type_color)
-        plt.xlabel(None)
-        plt.ylabel(None)
+        plt.title("Spearman Rank Correlation Matrix")
+        ax2 = sns.heatmap(spearman_corr,mask=mask,cmap=custom_cmap, vmax=1.0,vmin=-1.0,annot=True,fmt='.1f')
         st.pyplot(fig2)
+
+
+        # fig2, ax2 = plt.subplots()
+        # wine_type_color = {'white':'blue','red':'red'}
+        # plt.title("Outlier Visualization for {}".format(select_inputs.title()))
+        # ax2 = sns.boxplot(x='red or white', y=select_inputs, data=df, palette=wine_type_color)
+        # plt.xlabel(None)
+        # plt.ylabel(None)
+        # st.pyplot(fig2)
