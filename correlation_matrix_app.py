@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 st.set_page_config(layout='wide')
+st.title('Portugese Winery Dataset')
 
 # loading the combined wine dataset
 df = pd.read_csv('data/wine-quality.csv')
@@ -85,7 +86,7 @@ with col3:
         corr = calculate_correlation_matrix(df_white, method_dict[corr_method3], input_features_1)
 
     #mask = np.triu(np.ones_like(corr, dtype=bool))
-    #mask=mask, 
+    #mask=mask,
     fig3, ax3 = plt.subplots()
     ax3 = sns.heatmap(corr,cmap=custom_cmap, vmax=1.0,vmin=-1.0,annot=True,fmt='.1f')
     st.pyplot(fig3)
