@@ -32,18 +32,20 @@ with st.container():
     col1, col2= st.columns([3,3])
     sns.set_style('darkgrid')
     custom_cmap = sns.diverging_palette(10, 255, n=3)
-    mask = np.triu(np.ones_like(corr, dtype=bool))
+    pearson_mask = np.triu(np.ones_like(pearson_corr, dtype=bool))
+    spearman_mask = np.triu(np.ones_like(pearson_corr, dtype=bool))
+
 
     with col1:
         fig1, ax1 = plt.subplots()
         plt.title("Pearson Correlation Matrix")
-        ax1 = sns.heatmap(pearson_corr,mask=mask,cmap=custom_cmap, vmax=1.0,vmin=-1.0,annot=True,fmt='.1f')
+        ax1 = sns.heatmap(pearson_corr,mask=pearson_mask,cmap=custom_cmap, vmax=1.0,vmin=-1.0,annot=True,fmt='.1f')
         st.pyplot(fig1)
 
     with col2:
         fig2, ax2 = plt.subplots()
         plt.title("Spearman Rank Correlation Matrix")
-        ax2 = sns.heatmap(spearman_corr,mask=mask,cmap=custom_cmap, vmax=1.0,vmin=-1.0,annot=True,fmt='.1f')
+        ax2 = sns.heatmap(spearman_corr,mask=spearman_mask,cmap=custom_cmap, vmax=1.0,vmin=-1.0,annot=True,fmt='.1f')
         st.pyplot(fig2)
 
 
